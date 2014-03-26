@@ -9,17 +9,23 @@ debug(True) #  uncomment for verbose error logging. Do not use in production
 
 @bottle.get('/initialize')
 def init():
-  board = []
-  #initialize the grid
-  for x in range(0,7):
-    row = []
-    for y in range(0,7):
-      row.append('-')
-    board.append(row)
-  
+  board = emptyBoard(7,7)
   #initialize ships
   ships = [5,4,3,3,2]
-  return plot(ships,board)
+  playerPlot = plot(ships,board)
+  botPlot = plot(ships,board)
+  result = json.dumps({"player":playerPlot,"bot":botPlot})
+  return result
+
+def emptyBoard(a,b):
+  board = []
+  for x in range(0,a):
+    row = []
+    for y in range(0,b):
+      row.append('-')
+    board.append(row)
+  return board
+  
 
 def boardStr(board): 
   grid = []

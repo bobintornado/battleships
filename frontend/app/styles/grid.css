@@ -1,0 +1,35 @@
+.grid {
+  padding-top: 25px;
+}
+
+.grid .board-row {
+  width: 525px;
+}
+
+.grid .cell {
+  width: 75px;
+  height: 75px;
+  background-color: rgb(0,140,158);
+  float: left;
+  border: solid rgb(0,95,107) 5px;
+}
+
+.grid .cell.ship {
+  background-color: rgb(0,223,252);
+}
+
+@media all and (max-width: 1199px) {
+  .grid .board-row {
+    width: 420px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .grid .cell {
+    width: 60px;
+    height: 60px;
+    background-color: rgb(0,140,158);
+    float: left;
+    border: solid rgb(0,95,107) 5px;
+  }
+}

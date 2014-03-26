@@ -1,0 +1,35 @@
+body{
+  background-color: rgb(52,56,56);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Roboto';
+  color: white; 
+}
+
+.option-select {
+  font-family: 'Roboto'; 
+}
+
+#logo{
+  font-size: 500%;
+  text-shadow: 0px 1px 3px rgb(38,97,110);
+  color: rgb(197,245,255);
+}
+
+.statistics {
+  width: 100%;
+  font-weight: 400;
+  background-color: rgb(29,30,26);
+  border-radius: 5px;
+  padding: 20px 10px;
+  color: white;
+}
+
+.score {
+  color: rgb(21,201,239);
+  height: 34px;
+  display: block;
+  font-size: 300%;
+  line-height: 90%;
+}

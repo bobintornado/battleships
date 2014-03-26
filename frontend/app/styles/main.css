@@ -1,16 +1,9 @@
-@import url(http://fonts.googleapis.com/css?family=Roboto:400,500,700);
-
 body{
   background-color: rgb(52,56,56);
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Roboto' sans-serif;
   color: white; 
-}
-
-.option-select {
-  font-family: 'Roboto' sans-serif; 
 }
 
 #logo{

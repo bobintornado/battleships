@@ -15,6 +15,7 @@ angular.module('frontendApp')
       lineNumbers: true,
       theme: 'monokai',
       mode: 'javascript',
+      readOnly: 'nocursor',
       autoCloseBrackets: true
     };
 
@@ -22,7 +23,7 @@ angular.module('frontendApp')
 
     $scope.currentLevel = 1;
     
-    $scope.playerBot = 'function getMove(boardStr) {}';
+    $scope.playerBot = 'function getMove(boardStr) {\n\n}';
 
     $scope.saveBot = function(){
       Bot.saveBot($scope.playerBot);

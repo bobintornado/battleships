@@ -33,3 +33,9 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 300%;
   line-height: 90%;
 }
+
+@media all and (max-width: 1199px) {
+  #logo {
+    font-size: 300%;
+  }
+}

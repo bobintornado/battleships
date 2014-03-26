@@ -24,7 +24,7 @@ def show():
     result.append(bot.to_dict())
   return json.dumps(result)
 
-@bottle.route('/create')
+@bottle.route('/create') #post
 def add():
   ##verify against christ server
   #name = request.params.get('name')
@@ -32,13 +32,16 @@ def add():
   #code = request.params.get('code')
   name = "alexander"
   lan = "python"
-  code = "sadsadsads"
+  code = "def map():\n  return true"
   new_bot = Bot(name = name, language = lan, code = code, score = 0)
   #new_bot = Bot(name = "beautyqueen", language = "englrish", code = "pasdasdef wef()[]", score=0)
   new_bot.put()
   #verify_service("name":"alexander","language":"python","code":"code"}
   result = json.dumps({"name":name,"language":lan,"code":code})
-  return result
+  url = "http://ec2-54-251-204-6.ap-southeast-1.compute.amazonaws.com/python"
+  output = verify_service(result,url)
+  return output
+  #return result
   #return 'true'
 
 def verify_service(requestJSON, url):

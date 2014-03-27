@@ -14,7 +14,6 @@ bottle = Bottle() # create another WSGI application for this controller and reso
 debug(True) #  uncomment for verbose error logging. Do not use in production
 
 
-
 @bottle.get('/all')
 def show():
   bots = Bot.query()
@@ -22,8 +21,6 @@ def show():
   for bot in bots:
     result.append(bot.to_dict())
   return json.dumps(result)
-
-@bottle.route()
 
 @bottle.route('/create') #post
 def add():

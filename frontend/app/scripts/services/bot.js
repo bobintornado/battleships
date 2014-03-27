@@ -2,19 +2,16 @@
 
 angular.module('frontendApp')
   .factory('Bot', function ($http) {
-    var bots = [
-      {
-        name: 'SuperBot',
-        code: 'function(x){}'
-      }
-    ];
-
+    var bots = [];
     return {
       saveBot: function (bot) {
         bots.push(bot);
       },
       getAllBots: function(){
-        return bots;
+        $http.get('Bot/all').then(function(res){
+          console.log(res.data);
+          return res.data;
+        });
       },
       getChallengeBots: function(){
         return bots;

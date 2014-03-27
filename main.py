@@ -21,21 +21,13 @@ bottle = Bottle()
 bottle.mount("/Bot", Bot_controller.bottle)
 bottle.mount("/Board", Board_controller.bottle)
 
-@bottle.route('/')
-def server_static(filename="index.html"):
-  return static_file(filename, root='./frontend/dist/')
-
-@bottle.route('/dev')
-def server_static(filename="index.html"):
-  return static_file(filename, root='./frontend/app/')
-
-@bottle.route('/dev/<filepath:path>')
+@bottle.route('/<filepath:path>')
 def server_static(filepath):
   return static_file(filepath, root='./frontend/app/')
 
-@bottle.route('/<filepath:path>')
-def server_static(filepath):
-  return static_file(filepath, root='./frontend/dist/')
+@bottle.route('/')
+def server_static(filename="index.html"):
+  return static_file(filename, root='./frontend/app/')
 
 @bottle.error(404)
 def error_404(error):

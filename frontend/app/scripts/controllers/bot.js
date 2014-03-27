@@ -23,7 +23,9 @@ angular.module('frontendApp')
 
     $scope.currentLevel = 1;
     
-    $scope.playerBot = 'function getMove(boardStr) {\n\n}';
+    $scope.playerBot = 'function getMove(boardStr) {\n  //Write your code here...\n  return boardStr;\n}';
+
+    $scope.computerBot = 'function getMove(boardStr) {\n  //Write your code here...\n  return boardStr;\n}';
 
     $scope.saveBot = function(){
       Bot.saveBot($scope.playerBot);

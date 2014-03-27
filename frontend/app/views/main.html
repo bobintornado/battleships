@@ -42,7 +42,7 @@
     <div class="col-md-6" ng-controller="BoardCtrl">
       <div class="grid">
         <div class="board-row" ng-repeat="row in board track by $index">
-          <div ng-class="{ship: cell === 'O'}" class="cell" ng-repeat="cell in row track by $index"></div>
+          <div ng-class="{ship: isShip(cell)}" class="cell" ng-repeat="cell in row track by $index"></div>
           <div class="clearfix"></div>
         </div>
       </div>
@@ -51,7 +51,7 @@
       <h3>Bot Code: </h3>
       <form role="form">
         <div class="form-group">
-          <textarea ui-codemirror="botOptions"></textarea>
+          <textarea ui-codemirror="botOptions" ng-model="computerBot"></textarea>
         </div>
 
         <div class="form-group">

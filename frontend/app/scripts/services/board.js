@@ -39,8 +39,8 @@ angular.module('frontendApp')
         // Make API call here to backend to get a board
         // Currently return a test board
         var reply = {
-          player: '---OOO-|O------|O------|O------|O------|O------|--OOOO-',
-          bot: '---OOO-|O------|O------|O------|O------|O------|--OOOO-'
+          player: '-------|sssss--|----s--|----s--|-s--ss-|-s--ss-|sss--s-',
+          bot: '-------|sssss--|----s--|----s--|-s--ss-|-s--ss-|sss--s-'
         };
 
         return reply;

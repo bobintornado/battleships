@@ -23,5 +23,9 @@ angular.module('frontendApp')
       return output;
     };
 
+    $scope.isShip = function(val){
+      return val === 's';
+    };
+
     $scope.board = $scope.parseBoard($scope.board.player);
   });

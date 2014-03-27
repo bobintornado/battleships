@@ -22,7 +22,7 @@ def show():
     result.append(bot.to_dict())
   return json.dumps(result)
 
-@bottle.route('/create') #post
+@bottle.post('/create') #post
 def add():
   ##verify against christ server
   name = request.params.get('name')

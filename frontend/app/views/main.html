@@ -6,11 +6,10 @@
       <div class="statistics">
         <div class="col-md-4">
           <label>Choose your language: </label>
-          <select class="form-control option-select">
-            <option value="js">Javascript</option>
+          <select ng-model="settings.language" class="form-control option-select">
+            <option value="javascript">Javascript</option>
             <option value="python">Python</option>
             <option value="java">Java</option>
-            <option>Hello</option>
           </select>
         </div>
 
@@ -52,7 +51,7 @@
       <h3>Bot Code: </h3>
       <form role="form">
         <div class="form-group">
-          <textarea ui-codemirror="botOptions" ng-model="computerBot"></textarea>
+          <textarea ui-codemirror="botOptions" ng-model="computerBot.code"></textarea>
         </div>
 
         <div class="form-group">
@@ -61,22 +60,14 @@
       <h3>Your Code: </h3>
       <form role="form">
         <div class="form-group">
-          <textarea ui-codemirror="playerOptions" ng-model="playerBot"></textarea>
+          <textarea ui-codemirror="playerOptions" ng-model="playerBot.code"></textarea>
         </div>
 
         <div class="form-group">
-          <button class="btn btn-block btn-success">Run Bot</button>
+          <button class="btn btn-block btn-success" ng-click="saveBot()">Run Bot</button>
         </div>
       </form>
     </div> 
     </div>
-  </div>
-
-  <div class="row" >
-    <div class="col-md-6">
-      
-    </div>
-    <div class="col-md-6">
-      
   </div>
 </div>

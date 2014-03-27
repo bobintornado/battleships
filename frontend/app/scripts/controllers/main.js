@@ -2,5 +2,7 @@
 
 angular.module('frontendApp')
   .controller('MainCtrl', function ($scope) {
-    $scope.test = 'hello';
+    $scope.settings = {
+      language: 'javascript'
+    };
   });

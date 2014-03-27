@@ -2,8 +2,9 @@
 
 angular.module('frontendApp')
   .controller('BoardCtrl', function ($scope, Board) {
-    $scope.board = Board.initializeBoards();
-    console.log($scope.board);
+    $scope.board = Board.initializeBoards().then(function(data){
+      $scope.board = $scope.parseBoard(data.player);
+    });
 
     $scope.parseBoard = function(boardStr){
       var output = [];
@@ -26,6 +27,4 @@ angular.module('frontendApp')
     $scope.isShip = function(val){
       return val === 's';
     };
-
-    $scope.board = $scope.parseBoard($scope.board.player);
   });

@@ -28,12 +28,12 @@ def show():
 @bottle.route('/create') #post
 def add():
   ##verify against christ server
-  #name = request.params.get('name')
-  #lan = request.params.get('language')
-  #code = request.params.get('code')
-  name = "alexander"
-  lan = "python"
-  code = "def play_game(d):\n  return d"
+  name = request.params.get('name')
+  lan = request.params.get('language')
+  code = request.params.get('code')
+  #name = "alexander"
+  #lan = "python"
+  #code = "def play_game(d):\n  return d"
   #code = "def sdaf"
   #tests = ">>> play_game('___,___,___')\n  'ANYTHING'\n"
   result = json.loads(invoke_verify(code,lan))

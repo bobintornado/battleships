@@ -6,7 +6,7 @@ handler.
 
 # import the Bottle framework
 from server.lib import bottle
-from server.lib.bottle import Bottle
+from server.lib.bottle import Bottle, static_file 
 # TODO: name and list your controllers here so their routes become accessible.
 from server.controllers import Bot_controller
 from server.controllers import Board_controller
@@ -22,10 +22,13 @@ bottle = Bottle()
 bottle.mount("/Bot", Bot_controller.bottle)
 bottle.mount("/Board", Board_controller.bottle)
 
+@bottle.route('/<filepath:path>')
+def server_static(filepath):
+    return static_file(filepath, root='./frontend/dist/')
+
 @bottle.route('/')
-def home():
-  """ Return Hello World at application root URL"""
-  return "Hello World"
+def server_static(filename="index.html"):
+    return static_file(filename, root='./frontend/dist/')
 
 @bottle.error(404)
 def error_404(error):

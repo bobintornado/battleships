@@ -24,7 +24,7 @@ def getNewBoard():
     lan = request.params.get('language')
     solution = request.params.get('solution')
 
-  tests = ">>> getMove('" + "board" + "') \n 'False'"
+  tests = ">>> getMove('" + board + "') \n 'False'"
 
   response = json.loads(Utility.invoke_verify(solution,lan,tests))
 

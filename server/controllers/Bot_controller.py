@@ -3,7 +3,7 @@ import json
 # use the Jinja templating system
 from view_helper import JINJA_ENV
 # import model code
-  from server.models.Bot import Bot
+from server.models.Bot import Bot
 
 from server.lib.bottle import route, request, run, redirect
 import urllib

@@ -160,10 +160,6 @@ def strToBoard(boardStr="-------|sssss--|----s--|----s--|-s--ss-|-s--ss-|sss--s-
     grid.append(r)
   return str(grid)
 
-@bottle.get('/dev')
-def show():
-  return Utility.invoke_verify("code", "python")
-
 
 
 

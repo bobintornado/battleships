@@ -1,5 +1,6 @@
 from server.lib.bottle import Bottle, debug,request
 import json
+from difflib import Differ 
 # use the Jinja templating system
 from view_helper import JINJA_ENV
 
@@ -24,8 +25,77 @@ def getNewBoard():
     lan = request.params.get('language')
     solution = request.params.get('solution')
 
-  tests = ">>> getMove('" + board + "') \n 'False'"
+  #hide ships up
+  enemyBoard = str.replace(board, 's','-')
+
+  tests = ">>> getMove('" + enemyBoard + "') \n '---B--'"
 
   response = json.loads(Utility.invoke_verify(solution,lan,tests))
 
-  return response['results'][0]['received']
+  if 'errors' in response:
+    #return str(result['errors'])
+    return json.dumps({"status":"error","message":"Your bot cannot be compiled.",
+                        "errors":str(result['errors'])})
+
+  newEnemyBoard = response['results'][0]['received']
+
+  if moveValidation(board,enemyBoard, newEnemyBoard):
+    try:
+      i = newEnemyBoard.index('B')
+    except ValueError:
+      return json.dumps({"status":"error","message":"Don't forget to place put a Bomb~"})
+    
+    newBoard = ""
+    boardList = list(board)
+    
+    if boardList[i] is 's':
+      boardList[i] = 'h' 
+    elif boardList[i] is '-':
+      boardList[i] = 'm'
+    else:
+      return json.dumps({"status":"error","message":"Don't waste your bomb! Place it on empty cell only!"}) 
+    
+    newBoard = "".join(boardList)
+
+    return json.dumps({"newBoard":newBoard,"winningStatus":winningStatus(newBoard)})
+  else:
+    return json.dumps({"status":"error","message":"Your codes failed validation"})
+
+def winningStatus(board):
+  if "s" in board:
+    return False
+  else:
+    return True
+
+def moveValidation(oldBoard,enemyBoard,newEnemyBoard):
+  #validation remains undone
+  return True
+
+@bottle.get('/dev')
+def differ():
+  s1 = "s------|s-s----|s-s----|--sss--|--s----|-sss---|-sssss-"
+  s2 = "s------|s-s----|s-s----|--sss--|--s----|-sss---|-ssssss"
+  d = Differ()
+  result = list(d.compare(s1,s2))
+  return str(result)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -24,15 +24,20 @@ def show():
 
 @bottle.post('/create') #post
 def add():
-  ##verify against christ server
-  name = request.params.get('name')
-  lan = request.params.get('language')
-  code = request.params.get('code')
-  #name = "alexander"
-  #lan = "python"
-  #code = "def play_game(d):\n  return d"
-  #code = "def sdaf"
-  #tests = ">>> play_game('___,___,___')\n  'ANYTHING'\n"
+  name = ""
+  lan = "python"
+  code = ""
+  
+  if "text/plain" in request.content_type:
+    d = json.loads(request.body.getvalue())
+    name = d['name']
+    lan = d['language']
+    code = d['code']
+  else:
+    name = request.params.get('name')
+    lan = request.params.get('language')
+    code = request.params.get('code')
+  
   result = json.loads(invoke_verify(code,lan))
   if 'errors' in result:
     #return str(result['errors'])
@@ -43,6 +48,7 @@ def add():
     #GAE has auto retrying feature and a 500 internal error will be replied if failed
     #500 internal error handling unimplemented
     new_bot.put()
+  
   return json.dumps({"status":"success","name":new_bot.name,"language":new_bot.language,
                      "code":new_bot.code,"score":new_bot.score})
 

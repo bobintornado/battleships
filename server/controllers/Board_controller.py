@@ -4,6 +4,10 @@ import random
 # use the Jinja templating system
 from view_helper import JINJA_ENV
 
+from server.models.Board import Board
+
+from google.appengine.ext import ndb
+
 bottle = Bottle() # create another WSGI application for this controller and resource.
 debug(True) #  uncomment for verbose error logging. Do not use in production
 
@@ -14,6 +18,8 @@ def init():
   ships = [5,4,3,3,2]
   playerPlot = plot(ships,board)
   botPlot = plot(ships,board)
+  new_Bot_Board = Board(grid = botPlot)
+  new_Bot_Board.put()
   result = json.dumps({"player":playerPlot,"bot":botPlot})
   return result
 
@@ -25,15 +31,6 @@ def emptyBoard(a,b):
       row.append('-')
     board.append(row)
   return board
-  
-
-def boardStr(board): 
-  grid = []
-  for l in board:
-    rowStr = "".join(l)
-    grid.append(rowStr)
-
-  return '|'.join(grid)
   
 def plot(ships,board):
   #if there are still ship enploted, randomly pick a left ship 
@@ -133,6 +130,23 @@ def plot(ships,board):
               cellIndex += 1
               x += 1
               plot = True
-  return boardStr(board)
-      
+  return boardToStr(board)
 
+def boardToStr(board): 
+  grid = []
+  for l in board:
+    rowStr = "".join(l)
+    grid.append(rowStr)
+  return '|'.join(grid)
+
+@bottle.get('/dev')
+def strToBoard(boardStr="-------|sssss--|----s--|----s--|-s--ss-|-s--ss-|sss--s-"):
+  grid = []
+  for row in boardStr.split("|"):
+    r = []
+    for cell in row:
+      r.append(cell)
+    grid.append(r)
+  return str(grid)
+  
+  

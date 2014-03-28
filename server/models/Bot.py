@@ -5,4 +5,3 @@ class Bot(ndb.Model):
   language = ndb.StringProperty()
   code = ndb.StringProperty()
   score = ndb.FloatProperty()
-  

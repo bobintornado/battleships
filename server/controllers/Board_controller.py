@@ -5,11 +5,25 @@ import random
 from view_helper import JINJA_ENV
 
 from server.models.Board import Board
+import Utility
 
 from google.appengine.ext import ndb
 
 bottle = Bottle() # create another WSGI application for this controller and resource.
 debug(True) #  uncomment for verbose error logging. Do not use in production
+
+@bottle.get('/encryptInit')
+def encryptInit():
+  board = emptyBoard(7,7)
+  #initialize ships
+  ships = [5,4,3,3,2]
+  playerPlot = plot(ships,board)
+  botPlot = plot(ships,board)
+  new_Bot_Board = Board(grid = botPlot)
+  key = new_Bot_Board.put()
+  urlsafe = key.urlsafe()  
+  result = json.dumps({"player":playerPlot,"bot":urlsafe})
+  return result
 
 @bottle.get('/initialize')
 def init():
@@ -18,8 +32,6 @@ def init():
   ships = [5,4,3,3,2]
   playerPlot = plot(ships,board)
   botPlot = plot(ships,board)
-  new_Bot_Board = Board(grid = botPlot)
-  new_Bot_Board.put()
   result = json.dumps({"player":playerPlot,"bot":botPlot})
   return result
 
@@ -139,7 +151,6 @@ def boardToStr(board):
     grid.append(rowStr)
   return '|'.join(grid)
 
-@bottle.get('/dev')
 def strToBoard(boardStr="-------|sssss--|----s--|----s--|-s--ss-|-s--ss-|sss--s-"):
   grid = []
   for row in boardStr.split("|"):
@@ -148,5 +159,19 @@ def strToBoard(boardStr="-------|sssss--|----s--|----s--|-s--ss-|-s--ss-|sss--s-
       r.append(cell)
     grid.append(r)
   return str(grid)
-  
+
+@bottle.get('/dev')
+def show():
+  return Utility.invoke_verify("code", "python")
+
+
+
+
+
+
+
+
+
+
+
   

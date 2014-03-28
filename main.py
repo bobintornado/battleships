@@ -10,6 +10,7 @@ from server.lib.bottle import Bottle, static_file
 # TODO: name and list your controllers here so their routes become accessible.
 from server.controllers import Bot_controller
 from server.controllers import Board_controller
+from server.controllers import Game_controller
 
 # Enable debugging, which gives us tracebacks
 bottle.DEBUG = True
@@ -20,14 +21,15 @@ bottle = Bottle()
 # Mount a new instance of bottle for each controller and URL prefix.
 bottle.mount("/Bot", Bot_controller.bottle)
 bottle.mount("/Board", Board_controller.bottle)
-
-@bottle.route('/<filepath:path>')
-def server_static(filepath):
-  return static_file(filepath, root='./frontend/dist/')
+bottle.mount("/Game", Game_controller.bottle)
 
 @bottle.route('/')
 def server_static(filename="index.html"):
   return static_file(filename, root='./frontend/dist/')
+
+@bottle.route('/<filepath:path>')
+def server_static(filepath):
+  return static_file(filepath, root='./frontend/dist/')
 
 @bottle.error(404)
 def error_404(error):

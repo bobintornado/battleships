@@ -32,34 +32,34 @@ def getNewBoard():
 
   response = json.loads(Utility.invoke_verify(solution,lan,tests))
 
-  if 'errors' in response:
+  if "errors" in response:
     #return str(result['errors'])
     return json.dumps({"status":"error","message":"Your bot cannot be compiled.",
-                        "errors":str(result['errors'])})
-
-  newEnemyBoard = response['results'][0]['received']
-
-  if moveValidation(board,enemyBoard, newEnemyBoard):
-    try:
-      i = newEnemyBoard.index('B')
-    except ValueError:
-      return json.dumps({"status":"error","message":"Don't forget to place put a Bomb~"})
-    
-    newBoard = ""
-    boardList = list(board)
-    
-    if boardList[i] is 's':
-      boardList[i] = 'h' 
-    elif boardList[i] is '-':
-      boardList[i] = 'm'
-    else:
-      return json.dumps({"status":"error","message":"Don't waste your bomb! Place it on empty cell only!"}) 
-    
-    newBoard = "".join(boardList)
-
-    return json.dumps({"newBoard":newBoard,"winningStatus":winningStatus(newBoard)})
+                        "errors":str(response['errors'])})
   else:
-    return json.dumps({"status":"error","message":"Your codes failed validation"})
+    newEnemyBoard = response['results'][0]['received']
+
+    if moveValidation(board,enemyBoard, newEnemyBoard):
+      try:
+        i = newEnemyBoard.index('B')
+      except ValueError:
+        return json.dumps({"status":"error","message":"Don't forget to place put a Bomb~"})
+      
+      newBoard = ""
+      boardList = list(board)
+      
+      if boardList[i] is 's':
+        boardList[i] = 'h' 
+      elif boardList[i] is '-':
+        boardList[i] = 'm'
+      else:
+        return json.dumps({"status":"error","message":"Don't waste your bomb! Place it on empty cell only!"}) 
+      
+      newBoard = "".join(boardList)
+
+      return json.dumps({"newBoard":newBoard,"winningStatus":winningStatus(newBoard)})
+    else:
+      return json.dumps({"status":"error","message":"Your codes failed validation"})
 
 def winningStatus(board):
   if "s" in board:
@@ -70,14 +70,6 @@ def winningStatus(board):
 def moveValidation(oldBoard,enemyBoard,newEnemyBoard):
   #validation remains undone
   return True
-
-@bottle.get('/dev')
-def differ():
-  s1 = "s------|s-s----|s-s----|--sss--|--s----|-sss---|-sssss-"
-  s2 = "s------|s-s----|s-s----|--sss--|--s----|-sss---|-ssssss"
-  d = Differ()
-  result = list(d.compare(s1,s2))
-  return str(result)
 
 
 

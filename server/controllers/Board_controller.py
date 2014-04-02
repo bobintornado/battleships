@@ -28,10 +28,12 @@ def encryptInit():
 @bottle.get('/initialize')
 def init():
   board = emptyBoard(7,7)
+  board2 = emptyBoard(7,7)
   #initialize ships
   ships = [5,4,3,3,2]
   playerPlot = plot(ships,board)
-  botPlot = plot(ships,board)
+  ships2 = [5,4,3,3,2]
+  botPlot = plot(ships2,board2)
   result = json.dumps({"player":playerPlot,"bot":botPlot})
   return result
 

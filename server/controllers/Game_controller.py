@@ -80,14 +80,14 @@ def winningStatus(board):
 
 def moveValidation(oldBoard,enemyBoard,newEnemyBoard):
   #validation remains undone
-  x = 0
-  #Production needs to be changed to 50
-  size = 3
-  for i in range(size):
-    if enemyBoard[i] != newEnemyBoard[i]:
-      x += 1
-  if x != 1:
-    return "There are invalid number of cell changed!"
+  # x = 0
+  # #Production needs to be changed to 50
+  # size = 3
+  # for i in range(size):
+  #   if enemyBoard[i] != newEnemyBoard[i]:
+  #     x += 1
+  # if x != 1:
+  #   return "There are invalid number of cell changed!"
   return True
 
 

@@ -82,7 +82,13 @@ angular.module('frontendApp')
       Board.initializeBoards().then(function(data){
         $scope.playerBot.board = $scope.parseBoard(data.player);
         $scope.computerBot.board = $scope.parseBoard(data.bot);
+        // console.log(data.bot);
+        // console.log(data.player);
+        // $scope.playerBot.board = $scope.parseBoard('-s-');
+        // $scope.computerBot.board = $scope.parseBoard('-s-');
 
+        $scope.settings.hasWon = false;
+        $scope.settings.isOver = false;
         $scope.settings.initialCall = false;
         $scope.settings.hasError = false;
         $scope.settings.errorMsg = '';
@@ -101,15 +107,15 @@ angular.module('frontendApp')
       var playerRequest = {
         language: $scope.settings.language,
         solution: $scope.playerBot.solution,
-        // board: $scope.serializeBoard($scope.computerBot.board)
-        board: '-s-'
+        board: $scope.serializeBoard($scope.computerBot.board)
+        // board: '-s-'
       };
 
       var computerRequest = {
         language: $scope.settings.language,
         solution: $scope.computerBot.solution,
-        // board: $scope.serializeBoard($scope.playerBot.board)
-        board: '-s-'
+        board: $scope.serializeBoard($scope.playerBot.board)
+        // board: '-s-'
       };
 
       // Make calls to backend to get new board
@@ -120,7 +126,7 @@ angular.module('frontendApp')
         var computerData = res[0].data;
         var playerData = res[1].data;
 
-        if(computerData.status === 'error' && playerData.status === 'error'){
+        if(computerData.status === 'error' || playerData.status === 'error'){
           $scope.settings.hasError = true;
           $scope.settings.errorMsg = playerData.message;
 
@@ -129,13 +135,35 @@ angular.module('frontendApp')
           return false;
         }
 
-        $scope.computerBot.board = $scope.parseBoard(computerData.newBoard);
-        $scope.playerBot.board = $scope.parseBoard(playerData.newBoard);
+        $scope.computerBot.board = $scope.parseBoard(playerData.newBoard);
+        
+        $scope.playerBot.board = $scope.parseBoard(computerData.newBoard);
 
         $scope.history.computer.push($scope.computerBot.board);
         $scope.history.player.push($scope.playerBot.board);
 
+        if(playerData.winningStatus || computerData.winningStatus){
+          if(playerData.winningStatus){
+            $scope.settings.hasWon = true;
+          }
+
+          $scope.settings.isOver = true;
+          return false;
+        }
+
         $scope.playGame();
       });
+    };
+
+    $scope.reset = function(){
+      $scope.settings.hasWon = false;
+      $scope.settings.isOver = false;
+      $scope.settings.initialCall = true;
+      $scope.settings.hasError = false;
+      $scope.settings.errorMsg = '';
+
+      var emptyBoard = '-------|-------|-------|-------|-------|-------|-------';
+      $scope.playerBot.board = $scope.parseBoard(emptyBoard);
+      $scope.computerBot.board = $scope.parseBoard(emptyBoard);
     };
   });

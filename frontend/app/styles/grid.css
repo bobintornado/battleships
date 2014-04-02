@@ -52,6 +52,14 @@
   background-color: rgb(0,223,252);
 }
 
+.grid .cell.hit {
+  background-color: red;
+}
+
+.grid .cell.miss {
+  background-color: yellow;
+}
+
 @media all and (max-width: 1199px) {
   .overlay {
     position: absolute;

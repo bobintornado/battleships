@@ -7,15 +7,15 @@
         <div class="col-md-4">
           <label>Choose your language: </label>
           <select ng-model="settings.language" class="form-control option-select">
-            <option value="javascript">Javascript</option>
+            <!--<option value="javascript">Javascript</option>-->
             <option value="python">Python</option>
-            <option value="java">Java</option>
+            <!--<option value="java">Java</option>-->
           </select>
         </div>
 
         <div class="col-md-4">
           <label>Choose your bot: </label>
-          <select class="form-control  option-select">
+          <select class="form-control  option-select" disabled>
           </select>
         </div>
 
@@ -23,14 +23,14 @@
           <label class="control-label">
             Best Score: 
           </label>
-          <span class="score">2048</span>
+          <span class="score">-</span>
         </div>
 
         <div class="col-md-2 text-center hidden-sm hidden-xs">
           <label class="control-label">
             Personal Best: 
           </label>
-          <span class="score">2048</span>
+          <span class="score">-</span>
         </div>
 
         <div class="clearfix"></div>
@@ -45,8 +45,11 @@
         <div class="overlay" ng-show="hasWon()">
           <div>
             <h1>You Win!</h1>
+            <p>You have sunk all the Computer's ships!</p>
+            <!--
             <button class="btn btn-lg btn-info">Save Bot</button>
-            <button class="btn btn-lg btn-warning">Try Again</button>
+            -->
+            <button class="btn btn-lg btn-warning" ng-click="reset()">Reset</button>
           </div>
         </div>
         
@@ -54,15 +57,18 @@
         <div class="overlay" ng-show="hasLost()">
           <div>
             <h1>You Lose!</h1>
+            <p>The Computer has sunk all your ships!</p>
+            <!--
             <button class="btn btn-lg btn-info">Save Bot</button>
-            <button class="btn btn-lg btn-warning">Try Again</button>
+            -->
+            <button class="btn btn-lg btn-warning" ng-click="reset()">Reset</button>
           </div>
         </div>
 
         <!-- Blank Overlay -->
         <div class="overlay" ng-show="settings.initialCall">
           <div>
-            <h2>Enter Your Solution to Start Playing!</h2>
+            <h2>Enter your code to start playing!</h2>
           </div>
         </div>
         
@@ -76,7 +82,7 @@
         </div>
 
         <div class="board-row" ng-repeat="row in computerBot.board track by $index">
-          <div ng-class="{ship: isShip(cell)}" class="cell" ng-repeat="cell in row track by $index"></div>
+          <div ng-class="{hit: isHit(cell), miss: isMiss(cell)}" class="cell" ng-repeat="cell in row track by $index"></div>
           <div class="clearfix"></div>
         </div>
       </div>
@@ -85,7 +91,7 @@
       <h3>Bot Code: </h3>
       <form role="form">
         <div class="form-group">
-          <textarea ui-codemirror="botOptions" ng-model="computerBot.solution"></textarea>
+          <div ui-codemirror="botOptions" ng-model="computerBot.solution"></div>
         </div>
 
         <div class="form-group">
@@ -94,7 +100,7 @@
       <h3>Your Code: </h3>
       <form role="form">
         <div class="form-group">
-          <textarea ui-codemirror="playerOptions" ng-model="playerBot.solution"></textarea>
+          <div ui-codemirror="playerOptions" ng-model="playerBot.solution"></div>
         </div>
 
         <div class="form-group">

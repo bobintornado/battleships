@@ -56,19 +56,34 @@ angular.module('frontendApp')
       return output;
     };
 
+    $scope.serializeBoard = function(board){
+      var serialize = '';
+
+      board.forEach(function(row){
+        row.forEach(function(d){
+          d = d === '' ? '-' : d;
+          serialize += d;
+        });
+
+        serialize += '|';
+      });
+
+      serialize = serialize.substring(0, serialize.length - 1);
+      return serialize;
+    };
 
     $scope.playGame = function(){
       // Craft request objects
       var playerRequest = {
         'language': $scope.settings.language,
         'solution': $scope.playerBot.solution,
-        'board': $scope.playerBot.board
+        'board': $scope.serializeBoard($scope.playerBot.board)
       };
 
       var computerRequest = {
         'language': $scope.settings.language,
         'solution': $scope.computerBot.solution,
-        'board': '-s-'
+        'board': $scope.serializeBoard($scope.computerBot.board)
       };
 
       // Change initiaCall value to false

@@ -15,7 +15,7 @@ def getNewBoard():
   lan = ""
   solution = "" #the code
 
-  if "text/plain" in request.content_type:
+  if "application/json" in request.content_type:
     d = json.loads(request.body.getvalue())
     board = d['board']
     lan = d['language']
@@ -37,7 +37,7 @@ def getNewBoard():
   if "errors" in response:
     #return str(result['errors'])
     return json.dumps({"status":"error","message":"Your bot cannot be compiled.",
-                        "errors":str(response['errors'])})
+                        "errors":str(board)})
   else:
     newEnemyBoard = response['results'][0]['received']
 

@@ -28,7 +28,7 @@ def add():
   lan = "python"
   code = ""
   
-  if "text/plain" in request.content_type:
+  if "application/json" in request.content_type:
     d = json.loads(request.body.getvalue())
     name = d['name']
     lan = d['language']

@@ -25,11 +25,11 @@ bottle.mount("/Game", Game_controller.bottle)
 
 @bottle.route('/')
 def server_static(filename="index.html"):
-  return static_file(filename, root='./frontend/dist/')
+  return static_file(filename, root='./frontend/app/')
 
 @bottle.route('/<filepath:path>')
 def server_static(filepath):
-  return static_file(filepath, root='./frontend/dist/')
+  return static_file(filepath, root='./frontend/app/')
 
 @bottle.error(404)
 def error_404(error):

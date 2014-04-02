@@ -8,7 +8,7 @@ from google.appengine.api import urlfetch
 from google.appengine.ext import ndb
 
 def invoke_verify(solution,lan,tests=""):
-  url = "http://ec2-54-251-204-6.ap-southeast-1.compute.amazonaws.com/" + lan
+  url = "http://ec2-54-251-204-6.ap-southeast-1.compute.amazonaws.com/" + str(lan)
   result = verify(solution, tests, url)
   return result   
 

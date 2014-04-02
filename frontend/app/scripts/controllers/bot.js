@@ -2,17 +2,6 @@
 
 angular.module('frontendApp')
   .controller('BotCtrl', function ($scope, Bot) {
-    var getSample = function(language){
-      switch(language){
-        case 'javascript':
-          return 'function getMove(boardStr) {\n  //Write your code here...\n  return boardStr;\n}';
-        case 'java':
-          return 'public static void getMove(String boardStr){\n  //Write your code here...\n  return boardStr;\n}';
-        case 'python':
-          return 'def getMove(boardStr):\n  //Write your code here\n  return boardStr';
-      }
-    };
-
     $scope.playerOptions = {
       lineWrapping : true,
       lineNumbers: true,
@@ -34,26 +23,13 @@ angular.module('frontendApp')
       $scope.bots = bots;
     });
 
-    $scope.currentLevel = 1;
-
-    $scope.playerBot = {
-      name: 'lamkeewei',
-      language: $scope.settings.language,
-      code: getSample($scope.settings.language)
-    };
-
-    $scope.computerBot = {
-      name: 'lamkeewei',
-      language: $scope.settings.language,
-      code: getSample($scope.settings.language)
-    };
-
     $scope.$watch('settings.language', function(newVal, oldVal){
       $scope.botOptions.mode = newVal === 'java' ? 'clike' : newVal;
       $scope.playerOptions.mode = newVal === 'java' ? 'clike' : newVal;
       $scope.playerBot.language = newVal;
-      $scope.playerBot.code = getSample(newVal);
+      $scope.playerBot.solution = Bot.getSample(newVal);
       $scope.computerBot.language = newVal;
+      $scope.computerBot.solution = Bot.getSample(newVal);
     });
 
     $scope.saveBot = function(){

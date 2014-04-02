@@ -1,3 +1,29 @@
+.overlay {
+  position: absolute;
+  width: 525px;
+  height: 525px;
+  z-index: 99;
+  background-color: rgba(0,0,0,0.9);
+  text-align: center;
+}
+
+.overlay div{
+  margin-top: 180px;
+}
+
+.overlay div h1{
+  color: rgb(197,245,255);
+  font-size: 50pt;
+}
+
+.overlay div h2{
+  margin-right: auto;
+  margin-left: auto;
+  width: 80%;
+  color: rgb(197,245,255);
+  font-size: 30pt;
+}
+
 .grid {
   padding-top: 25px;
 }
@@ -19,10 +45,28 @@
 }
 
 @media all and (max-width: 1199px) {
-  .grid .board-row {
+  .overlay {
+    position: absolute;
     width: 420px;
+    height: 420px;
+    z-index: 99;
+    background-color: rgba(0,0,0,0.9);
+    text-align: center;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  .overlay div{
+    margin-top: 150px;
+  }
+
+  .overlay div h1{
+    color: rgb(197,245,255);
+    font-size: 40pt;
+  }
+
+  .grid .board-row {
+    width: 420px;
   }
 
   .grid .cell {

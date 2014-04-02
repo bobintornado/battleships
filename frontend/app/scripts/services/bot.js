@@ -24,5 +24,15 @@ angular.module('frontendApp')
       getChallengeBots: function(){
         return [];
       },
+      getSample: function(language){
+        switch(language){
+          case 'javascript':
+            return 'function getMove(boardStr) {\n  //Write your code here...\n  return boardStr;\n}';
+          case 'java':
+            return 'public static void getMove(String boardStr){\n  //Write your code here...\n  return boardStr;\n}';
+          case 'python':
+            return 'def getMove(boardStr):\n  //Write your code here\n  return boardStr';
+        }
+      }
     };
   });

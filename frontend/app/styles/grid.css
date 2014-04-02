@@ -60,6 +60,23 @@
   background-color: yellow;
 }
 
+.grid .overlay.initial p{
+  margin-top: 15px;
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  color: gainsboro;
+  font-size: 95%;
+}
+
+.grid .overlay.initial p .miss{
+  color: yellow;
+}
+
+.grid .overlay.initial p .hit{
+  color: red;
+}
+
 @media all and (max-width: 1199px) {
   .overlay {
     position: absolute;

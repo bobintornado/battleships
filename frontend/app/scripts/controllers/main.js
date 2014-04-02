@@ -3,12 +3,19 @@
 angular.module('frontendApp')
   .controller('MainCtrl', function ($scope, Board, Bot, $http, $q) {
     $scope.settings = {
-      language: 'javascript',
+      language: 'python',
       hasWon: false,
-      initialCall: true
+      isOver: false,
+      initialCall: true,
+      hasError: false,
+      errorMsg: ''
     };
 
     // Define 'global' game variable 
+    $scope.history = {};
+    $scope.history.player = [];
+    $scope.history.computer = [];
+
     $scope.board = {};
     
     $scope.playerBot = {
@@ -31,11 +38,11 @@ angular.module('frontendApp')
     });
 
     $scope.hasWon = function(){
-      return $scope.settings.hasWon && !$scope.settings.initialCall;
+      return $scope.settings.hasWon && !$scope.settings.initialCall && $scope.settings.isOver;
     };
 
     $scope.hasLost = function(){
-      return !$scope.settings.hasWon && !$scope.settings.initialCall;
+      return !$scope.settings.hasWon && !$scope.settings.initialCall && $scope.settings.isOver;
     };
 
     $scope.parseBoard = function(boardStr){
@@ -73,28 +80,54 @@ angular.module('frontendApp')
     };
 
     $scope.playGame = function(){
+      // Reset game state
+      $scope.settings.initialCall = false;
+      $scope.settings.hasError = false;
+      $scope.settings.errorMsg = '';
+
+      $scope.history = {};
+      $scope.history.player = [];
+      $scope.history.computer = [];
+
       // Craft request objects
       var playerRequest = {
-        'language': $scope.settings.language,
-        'solution': $scope.playerBot.solution,
-        'board': $scope.serializeBoard($scope.playerBot.board)
+        language: $scope.settings.language,
+        solution: $scope.playerBot.solution,
+        // board: $scope.serializeBoard($scope.playerBot.board)
+        board: '-s-'
       };
 
       var computerRequest = {
-        'language': $scope.settings.language,
-        'solution': $scope.computerBot.solution,
-        'board': $scope.serializeBoard($scope.computerBot.board)
+        language: $scope.settings.language,
+        solution: $scope.computerBot.solution,
+        // board: $scope.serializeBoard($scope.computerBot.board)
+        board: '-s-'
       };
-
-      // Change initiaCall value to false
-      $scope.settings.initialCall = false;
 
       // Make calls to backend to get new board
       $q.all([
-        $http.post('Game/getNewBoard', playerRequest),
-        $http.post('Game/getNewBoard', computerRequest)
+        $http.post('Game/getNewBoard', computerRequest),
+        $http.post('Game/getNewBoard', playerRequest)
       ]).then(function(res){
-        console.log(res);
+        var computerData = res[0].data;
+        var playerData = res[1].data;
+
+        if(computerData.status === 'error' && playerData.status === 'error'){
+          $scope.settings.hasError = true;
+          $scope.settings.errorMsg = playerData.message;
+
+          console.log(computerData.errors);
+          console.log(playerData.errors);
+          return false;
+        }
+
+        $scope.computerBot.board = $scope.parseBoard(computerData.newBoard);
+        $scope.playerBot.board = $scope.parseBoard(playerData.newBoard);
+
+        $scope.history.computer.push($scope.computerBot.board);
+        $scope.history.player.push($scope.playerBot.board);
+
+        $scope.playGame();
       });
     };
   });

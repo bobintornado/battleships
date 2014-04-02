@@ -37,7 +37,7 @@ def getNewBoard():
   if "errors" in response:
     #return str(result['errors'])
     return json.dumps({"status":"error","message":"Your bot cannot be compiled.",
-                        "errors":str(board)})
+                        "errors":str(response['errors'])})
   else:
     newEnemyBoard = response['results'][0]['received']
 

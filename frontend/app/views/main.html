@@ -65,6 +65,15 @@
             <h2>Enter Your Solution to Start Playing!</h2>
           </div>
         </div>
+        
+        <!-- Error Overlay -->
+        <div class="overlay" ng-show="settings.hasError">
+          <div>
+            <h2>Oops! An error has occured!</h2>
+            <p class="error-msg">{{settings.errorMsg}}</p>
+            <p>Edit your code and try running again!</p>
+          </div>
+        </div>
 
         <div class="board-row" ng-repeat="row in playerBot.board track by $index">
           <div ng-class="{ship: isShip(cell)}" class="cell" ng-repeat="cell in row track by $index"></div>

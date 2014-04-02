@@ -7,6 +7,14 @@
   text-align: center;
 }
 
+.overlay p.error-msg {
+  color: rgb(21,201,239)
+}
+
+.overlay p {
+  color: white;
+}
+
 .overlay div{
   margin-top: 180px;
 }

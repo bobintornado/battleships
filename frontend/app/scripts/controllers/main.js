@@ -7,6 +7,7 @@ angular.module('frontendApp')
       hasWon: false,
       isOver: false,
       initialCall: true,
+      gameStart: false,
       hasError: false,
       errorMsg: ''
     };
@@ -30,21 +31,6 @@ angular.module('frontendApp')
       solution: Bot.getSample($scope.settings.language)
     };
 
-    $scope.currentLevel = 1;
-
-    Board.initializeBoards().then(function(data){
-      $scope.playerBot.board = $scope.parseBoard(data.player);
-      $scope.computerBot.board = $scope.parseBoard(data.bot);
-    });
-
-    $scope.hasWon = function(){
-      return $scope.settings.hasWon && !$scope.settings.initialCall && $scope.settings.isOver;
-    };
-
-    $scope.hasLost = function(){
-      return !$scope.settings.hasWon && !$scope.settings.initialCall && $scope.settings.isOver;
-    };
-
     $scope.parseBoard = function(boardStr){
       var output = [];
       var rows = boardStr.split('|');
@@ -63,6 +49,19 @@ angular.module('frontendApp')
       return output;
     };
 
+    $scope.currentLevel = 1;
+    var emptyBoard = '-------|-------|-------|-------|-------|-------|-------';
+    $scope.playerBot.board = $scope.parseBoard(emptyBoard);
+    $scope.computerBot.board = $scope.parseBoard(emptyBoard);
+
+    $scope.hasWon = function(){
+      return $scope.settings.hasWon && !$scope.settings.initialCall && $scope.settings.isOver;
+    };
+
+    $scope.hasLost = function(){
+      return !$scope.settings.hasWon && !$scope.settings.initialCall && $scope.settings.isOver;
+    };
+
     $scope.serializeBoard = function(board){
       var serialize = '';
 
@@ -79,28 +78,37 @@ angular.module('frontendApp')
       return serialize;
     };
 
+    $scope.startGame = function(){
+      Board.initializeBoards().then(function(data){
+        $scope.playerBot.board = $scope.parseBoard(data.player);
+        $scope.computerBot.board = $scope.parseBoard(data.bot);
+
+        $scope.settings.initialCall = false;
+        $scope.settings.hasError = false;
+        $scope.settings.errorMsg = '';
+        $scope.settings.gameStart = true;
+
+        $scope.history = {};
+        $scope.history.player = [];
+        $scope.history.computer = [];
+
+        $scope.playGame();
+      });
+    };
+
     $scope.playGame = function(){
-      // Reset game state
-      $scope.settings.initialCall = false;
-      $scope.settings.hasError = false;
-      $scope.settings.errorMsg = '';
-
-      $scope.history = {};
-      $scope.history.player = [];
-      $scope.history.computer = [];
-
       // Craft request objects
       var playerRequest = {
         language: $scope.settings.language,
         solution: $scope.playerBot.solution,
-        // board: $scope.serializeBoard($scope.playerBot.board)
+        // board: $scope.serializeBoard($scope.computerBot.board)
         board: '-s-'
       };
 
       var computerRequest = {
         language: $scope.settings.language,
         solution: $scope.computerBot.solution,
-        // board: $scope.serializeBoard($scope.computerBot.board)
+        // board: $scope.serializeBoard($scope.playerBot.board)
         board: '-s-'
       };
 

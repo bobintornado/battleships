@@ -75,7 +75,7 @@
           </div>
         </div>
 
-        <div class="board-row" ng-repeat="row in playerBot.board track by $index">
+        <div class="board-row" ng-repeat="row in computerBot.board track by $index">
           <div ng-class="{ship: isShip(cell)}" class="cell" ng-repeat="cell in row track by $index"></div>
           <div class="clearfix"></div>
         </div>
@@ -98,7 +98,7 @@
         </div>
 
         <div class="form-group">
-          <button class="btn btn-block btn-success" ng-click="playGame()">Run Bot</button>
+          <button class="btn btn-block btn-success" ng-click="startGame()">Run Bot</button>
         </div>
       </form>
     </div> 

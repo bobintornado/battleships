@@ -3,7 +3,7 @@
 angular.module('frontendApp')
   .controller('BoardCtrl', function ($scope, Board) {
     $scope.isShip = function(val){
-      return val === 's';
+      return val === 's' && $scope.settings.gameStart;
     };
 
     $scope.$watch('board', function(newVal, oldVal){

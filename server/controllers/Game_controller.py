@@ -13,7 +13,7 @@ debug(True) #  uncomment for verbose error logging. Do not use in production
 def getNewBoard():
   board = ""
   lan = ""
-  solution = ""
+  solution = "" #the code
 
   if "text/plain" in request.content_type:
     d = json.loads(request.body.getvalue())
@@ -25,7 +25,9 @@ def getNewBoard():
     lan = request.params.get('language')
     solution = request.params.get('solution')
 
+
   #hide ships up
+  board = str(board)
   enemyBoard = str.replace(board, 's','-')
 
   tests = ">>> getMove('" + enemyBoard + "') \n '---B--'"
@@ -39,27 +41,36 @@ def getNewBoard():
   else:
     newEnemyBoard = response['results'][0]['received']
 
-    if moveValidation(board,enemyBoard, newEnemyBoard):
-      try:
-        i = newEnemyBoard.index('B')
-      except ValueError:
-        return json.dumps({"status":"error","message":"Don't forget to place put a Bomb~"})
-      
-      newBoard = ""
-      boardList = list(board)
-      
-      if boardList[i] is 's':
-        boardList[i] = 'h' 
-      elif boardList[i] is '-':
-        boardList[i] = 'm'
-      else:
-        return json.dumps({"status":"error","message":"Don't waste your bomb! Place it on empty cell only!"}) 
-      
-      newBoard = "".join(boardList)
+  #return newEnemyBoard
 
-      return json.dumps({"newBoard":newBoard,"winningStatus":winningStatus(newBoard)})
+  if moveValidation(board, enemyBoard, newEnemyBoard) == True :
+    
+    #following checking is more convenient, needs refactor later
+    newBoard = ""
+    boardList = list(board)
+    index = 0
+
+    # crying. so hard to refactor one
+    try:
+      index = newEnemyBoard.index("b")
+    except Exception, e:
+      return json.dumps({"status":"error","message":"Place a bomb!"}) 
+    
+    #Check Hiting or Missing
+    if boardList[index] is 's':
+      boardList[index] = 'h' 
+    elif boardList[index] is '-':
+      boardList[index] = 'm'
     else:
-      return json.dumps({"status":"error","message":"Your codes failed validation"})
+      return json.dumps({"status":"error","message":"Don't waste your bomb! Place it on empty cell only!"}) 
+    
+    newBoard = "".join(boardList)
+
+    return json.dumps({"newBoard":newBoard,"winningStatus":winningStatus(newBoard)})
+  
+  else:
+    errorMessage = moveValidation(board, enemyBoard, newEnemyBoard)
+    return json.dumps({"status":"error", "message":errorMessage})
 
 def winningStatus(board):
   if "s" in board:
@@ -69,6 +80,14 @@ def winningStatus(board):
 
 def moveValidation(oldBoard,enemyBoard,newEnemyBoard):
   #validation remains undone
+  x = 0
+  #Production needs to be changed to 50
+  size = 3
+  for i in range(size):
+    if enemyBoard[i] != newEnemyBoard[i]:
+      x += 1
+  if x != 1:
+    return "There are invalid number of cell changed!"
   return True
 
 

@@ -62,7 +62,7 @@ angular.module('frontendApp')
       var playerRequest = {
         'language': $scope.settings.language,
         'solution': $scope.playerBot.solution,
-        'board': '-s-'
+        'board': $scope.playerBot.board
       };
 
       var computerRequest = {

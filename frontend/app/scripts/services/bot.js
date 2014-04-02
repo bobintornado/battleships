@@ -31,7 +31,7 @@ angular.module('frontendApp')
           case 'java':
             return 'public static void getMove(String boardStr){\n  //Write your code here...\n  return boardStr;\n}';
           case 'python':
-            return 'def getMove(boardStr):\n  //Write your code here\n  return boardStr';
+            return 'def getMove(boardStr):\n  # Write your code here\n  return boardStr';
         }
       }
     };

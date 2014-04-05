@@ -5,7 +5,8 @@ angular.module('frontendApp', [
   'ngResource',
   'ngSanitize',
   'ngRoute',
-  'ui.codemirror'
+  'ui.codemirror',
+  'LocalStorageModule'
 ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -16,4 +17,7 @@ angular.module('frontendApp', [
       .otherwise({
         redirectTo: '/'
       });
-  });
+  })
+  .config(['localStorageServiceProvider', function(localStorageServiceProvider){
+    localStorageServiceProvider.setPrefix('battleships');
+  }]);

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('frontendApp')
-  .controller('MainCtrl', function ($scope, Board, Bot, $http, $q) {
+  .controller('MainCtrl', function ($scope, Board, Bot, $http, $q, localStorageService) {
     $scope.settings = {
       language: 'python',
       hasWon: false,
@@ -19,10 +19,19 @@ angular.module('frontendApp')
 
     $scope.board = {};
     
+    $scope.initPlayerSolution = function(){
+      var playerSol = localStorageService.get('playerSolution_' + $scope.settings.language);;
+      
+      if(null === playerSol){
+        playerSol = Bot.getSample($scope.settings.language);
+      }
+      return playerSol;
+    };
+
     $scope.playerBot = {
       name: 'lamkeewei',
       language: $scope.settings.language,
-      solution: Bot.getSample($scope.settings.language)
+      solution: $scope.initPlayerSolution()
     };
 
     $scope.computerBot = {
@@ -30,6 +39,10 @@ angular.module('frontendApp')
       language: $scope.settings.language,
       solution: Bot.getSample($scope.settings.language)
     };
+
+    $scope.$watch('playerBot.solution', function(newVal, oldVal){
+      localStorageService.add("playerSolution_" + $scope.settings.language, newVal);
+    });
 
     $scope.parseBoard = function(boardStr){
       var output = [];

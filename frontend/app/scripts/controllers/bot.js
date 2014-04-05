@@ -24,12 +24,15 @@ angular.module('frontendApp')
     });
 
     $scope.$watch('settings.language', function(newVal, oldVal){
-      $scope.botOptions.mode = newVal === 'java' ? 'clike' : newVal;
-      $scope.playerOptions.mode = newVal === 'java' ? 'clike' : newVal;
-      $scope.playerBot.language = newVal;
-      $scope.playerBot.solution = Bot.getSample(newVal);
-      $scope.computerBot.language = newVal;
-      $scope.computerBot.solution = Bot.getSample(newVal);
+      if(oldVal !== newVal){
+        console.log('chagned');
+        $scope.botOptions.mode = newVal === 'java' ? 'clike' : newVal;
+        $scope.playerOptions.mode = newVal === 'java' ? 'clike' : newVal;
+        $scope.playerBot.language = newVal;
+        $scope.playerBot.solution = $scope.initPlayerSolution();
+        $scope.computerBot.language = newVal;
+        $scope.computerBot.solution = Bot.getSample(newVal);        
+      }
     });
 
     $scope.saveBot = function(){

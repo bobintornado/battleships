@@ -81,18 +81,17 @@ def getNewBoard():
       return json.dumps({"status":"error","message":"Don't waste your bomb! Place it on empty cell only!","generateStr":newEnemyBoard}) 
     
     newBoard = "".join(boardList)
-    
-    #auto save bot with random name
-    q = Bot.query(Bot.code == solution)
-    if q.count() == 0:
-      #bug unsettled there
+
+    new_key_a = ndb.Key(Bot, solution)
+    b = new_key_a.get() 
+    if b is not None:
+      return json.dumps({"newBoard":newBoard,"winningStatus":winningStatus(newBoard),"bot":b.to_dict(),"generateStr":newEnemyBoard})
+    else:
       random_bot_name = Utility.random_name_generator() 
-      new_bot = Bot(name =random_bot_name, language = lan, code = solution, score = 400)
+      key_name = ndb.Key(Bot, solution)
+      new_bot = Bot(name =random_bot_name, language = lan, code = solution, score = 400, key = key_name)
       new_bot.put()
       return json.dumps({"newBoard":newBoard,"winningStatus":winningStatus(newBoard),"bot":new_bot.to_dict(),"generateStr":newEnemyBoard})
-    else:
-      bot = q.fetch(1)[0]
-      return json.dumps({"newBoard":newBoard,"winningStatus":winningStatus(newBoard),"bot":bot.to_dict(),"generateStr":newEnemyBoard})
 
   else:
     errorMessage = moveValidation(board, enemyBoard, newEnemyBoard)

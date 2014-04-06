@@ -1,4 +1,5 @@
 from google.appengine.ext import ndb
+import json
 
 class Bot(ndb.Model):
   name = ndb.StringProperty()

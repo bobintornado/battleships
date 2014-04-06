@@ -97,7 +97,7 @@ def getNewBoard():
         return json.dumps({"newBoard":newBoard,"winningStatus":winningStatus(newBoard),"bot":bot.to_dict()})
     else:
       return json.dumps({"newBoard":newBoard,"winningStatus":winningStatus(newBoard)})
-      
+
   else:
     errorMessage = moveValidation(board, enemyBoard, newEnemyBoard)
     return json.dumps({"status":"error", "message":errorMessage})
@@ -143,8 +143,9 @@ def add_result():
   bot2 = q2.fetch(1)[0]
 
   #saving result
+
   r = int(result)
-  gResult = GameResult(bot1 = bot1, bot2 = bot2, result = r)
+  gResult = GameResult(bot1 = bot1.put(), bot2 = bot2.put(), result = r)
   gResult.put()
 
   #0: name 1 lose, 1:draw, 2:name 1 win

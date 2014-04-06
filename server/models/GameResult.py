@@ -1,5 +1,4 @@
 from google.appengine.ext import ndb
-
 from server.models.Bot import Bot
 
 class GameResult(ndb.Model):

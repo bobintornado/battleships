@@ -1,7 +1,9 @@
 'use strict';
 
 angular.module('frontendApp')
-  .controller('MainCtrl', function ($scope, Board, Bot, $http, $q, localStorageService, $modal) {
+  .controller('MainCtrl', function ($scope, Board, Bot, $http, $q, localStorageService, $modal, allBots, percentileBots, filterFilter) {
+    $scope.percentileBots = percentileBots;
+    $scope.allBots = allBots;
     $scope.settings = {
       language: 'python',
       hasWon: false,
@@ -9,9 +11,15 @@ angular.module('frontendApp')
       initialCall: true,
       gameStart: false,
       hasError: false,
-      errorMsg: ''
+      errorMsg: '',
+      selectedBot: ''
     };
 
+    // TODO: Refactor when have time
+    $scope.settings.selectedBot = filterFilter($scope.percentileBots, {language: $scope.settings.language});
+    if($scope.settings.selectedBot.length > 0){
+      $scope.settings.selectedBot = $scope.settings.selectedBot[0].name;
+    }
     // Define 'global' game variable 
     $scope.history = {};
     $scope.history.player = [];
@@ -20,7 +28,7 @@ angular.module('frontendApp')
     $scope.board = {};
     
     $scope.initPlayerSolution = function(){
-      var playerSol = localStorageService.get('playerSolution_' + $scope.settings.language);;
+      var playerSol = localStorageService.get('playerSolution_' + $scope.settings.language);
       
       if(null === playerSol){
         playerSol = Bot.getSample($scope.settings.language);
@@ -41,7 +49,7 @@ angular.module('frontendApp')
     };
 
     $scope.$watch('playerBot.solution', function(newVal, oldVal){
-      localStorageService.add("playerSolution_" + $scope.settings.language, newVal);
+      localStorageService.add('playerSolution_' + $scope.settings.language, newVal);
     });
 
     $scope.parseBoard = function(boardStr){
@@ -61,6 +69,26 @@ angular.module('frontendApp')
 
       return output;
     };
+
+    $scope.getBot = function(name){
+      var selected = {};
+
+      $scope.percentileBots.forEach(function(bot){
+        if(bot.name === name){
+          selected = bot;
+        }
+      });
+
+      return selected;
+    };
+
+    $scope.$watch('settings.selectedBot', function(newVal, oldVal){
+      // TODO: Refactor when have time
+      var selected = filterFilter($scope.percentileBots, {language: $scope.settings.language});
+      if(selected.length > 0){
+        $scope.computerBot.solution = $scope.getBot(newVal).code;
+      }
+    });
 
     $scope.currentLevel = 1;
     var emptyBoard = '-------|-------|-------|-------|-------|-------|-------';
@@ -118,9 +146,6 @@ angular.module('frontendApp')
     $scope.playGame = function(){
       // Craft request objects
       var lang = $scope.settings.language;
-      if(lang === 'javascript') {
-        lang = 'js';
-      } 
 
       var playerRequest = {
         language: lang,
@@ -172,6 +197,20 @@ angular.module('frontendApp')
             $scope.settings.hasWon = true;
           }
 
+          var result;
+          if (playerData.winningStatus === computerData.winningStatus){
+            // Draw
+            result = 0;
+          } else if (playerData.winningStatus) {
+            // Player win
+            result = 1;
+          } else {
+            // Computer win
+            result = 2;
+          }
+
+          // console.log(playerData);
+          // console.log(computerData);
           $scope.settings.isOver = true;
           return false;
         }

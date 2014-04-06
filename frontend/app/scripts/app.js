@@ -13,7 +13,15 @@ angular.module('frontendApp', [
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
+        controller: 'MainCtrl',
+        resolve: {
+          allBots: ['Bot', function(Bot){
+            return Bot.getAllBots();
+          }],
+          percentileBots: ['Bot', function(Bot){
+            return Bot.getChallengeBots();
+          }]
+        }
       })
       .otherwise({
         redirectTo: '/'

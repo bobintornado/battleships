@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('frontendApp')
-  .controller('BotCtrl', function ($scope, Bot) {
+  .controller('BotCtrl', function ($scope, Bot, filterFilter) {
     $scope.playerOptions = {
       lineWrapping : true,
       lineNumbers: true,
@@ -25,13 +25,26 @@ angular.module('frontendApp')
 
     $scope.$watch('settings.language', function(newVal, oldVal){
       if(oldVal !== newVal){
-        console.log('chagned');
-        $scope.botOptions.mode = newVal === 'java' ? 'clike' : newVal;
-        $scope.playerOptions.mode = newVal === 'java' ? 'clike' : newVal;
+        var lang = newVal;
+
+        if(lang === 'java'){
+          lang = 'clike';
+        } else if (lang === 'js'){
+          lang = 'javascript';
+        }
+
+        $scope.settings.selectedBot = filterFilter($scope.percentileBots, {language: newVal});
+        if($scope.settings.selectedBot.length > 0){
+          $scope.settings.selectedBot = $scope.settings.selectedBot[0].name;
+        } else {
+          $scope.computerBot.solution = Bot.getSample(newVal);
+        }
+
+        $scope.botOptions.mode = lang;
+        $scope.playerOptions.mode = lang;
         $scope.playerBot.language = newVal;
         $scope.playerBot.solution = $scope.initPlayerSolution();
         $scope.computerBot.language = newVal;
-        $scope.computerBot.solution = Bot.getSample(newVal);        
       }
     });
 

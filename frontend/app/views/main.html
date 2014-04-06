@@ -7,15 +7,16 @@
         <div class="col-md-4">
           <label>Choose your language: </label>
           <select ng-model="settings.language" class="form-control option-select">
-            <option value="javascript">Javascript</option>
+            <option value="js">Javascript</option>
             <option value="python">Python</option>
             <!--<option value="java">Java</option>-->
           </select>
         </div>
 
         <div class="col-md-4">
-          <label>Choose your bot: </label>
-          <select class="form-control  option-select" disabled>
+          <label>Choose your level: </label>
+          <select ng-model="settings.selectedBot" class="form-control option-select">
+            <option ng-repeat="bot in percentileBots | filter: {language: settings.language }" value="{{bot.name}}">Level {{$index + 1}}</option>
           </select>
         </div>
 
@@ -106,7 +107,7 @@
       <h3>Your Code: </h3>
       <form role="form">
         <div class="form-group">
-          <div ga-track="click" ga-label="selected code area" ui-codemirror="playerOptions" ng-model="playerBot.solution"></div>
+          <div id="player-code" ga-track="click" ga-label="selected code area" ui-codemirror="playerOptions" ng-model="playerBot.solution"></div>
         </div>
 
         <div class="form-group">

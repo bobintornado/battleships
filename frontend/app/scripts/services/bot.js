@@ -15,18 +15,24 @@ angular.module('frontendApp')
       getAllBots: function(){
         var bots = $q.defer();
 
-        $http.get('Bot/all').then(function(res){
-          bots.resolve(res.data);
+        $http.get('Bot/all').success(function(data){
+          bots.resolve(data);
         });
 
         return bots.promise;
       },
       getChallengeBots: function(){
-        return [];
+        var bots = $q.defer();
+
+        $http.get('Bot/percentile10').success(function(data){
+          bots.resolve(data);
+        });
+
+        return bots.promise;
       },
       getSample: function(language){
         switch(language){
-          case 'javascript':
+          case 'js':
             return 'function getMove(boardStr) {\n  //Write your code here...\n  return boardStr.replace("-","b");\n}';
           case 'java':
             return 'public static void getMove(String boardStr){\n  //Write your code here...\n  return boardStr;\n}';

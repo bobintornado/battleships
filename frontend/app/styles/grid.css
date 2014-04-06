@@ -77,6 +77,10 @@
   color: red;
 }
 
+#player-code {
+  height: 300px;
+}
+
 @media all and (max-width: 1199px) {
   .overlay {
     position: absolute;

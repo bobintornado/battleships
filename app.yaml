@@ -6,8 +6,8 @@
 # TODO: Enter your application id below. If you have signed up
 # using cloud.google.com/console use the "project id" for your application
 # id.
-application: cloud429-battleship
-version: 1
+application: versatile-art-517
+version: 5
 runtime: python27
 api_version: 1
 threadsafe: yes

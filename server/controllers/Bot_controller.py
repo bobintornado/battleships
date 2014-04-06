@@ -63,6 +63,7 @@ def add():
     return json.dumps({"status":"error","message":"Your bot cannot be compiled.",
                         "errors":str(result['errors'])})
   else:
+    #return result
     q = Bot.query(Bot.name == name)
     if q.count() == 0:
       new_bot = Bot(name = name, language = lan, code = code, score = 400)

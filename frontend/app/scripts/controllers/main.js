@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('frontendApp')
-  .controller('MainCtrl', function ($scope, Board, Bot, $http, $q, localStorageService) {
+  .controller('MainCtrl', function ($scope, Board, Bot, $http, $q, localStorageService, $modal) {
     $scope.settings = {
       language: 'python',
       hasWon: false,
@@ -139,10 +139,17 @@ angular.module('frontendApp')
         var computerData = res[0].data;
         var playerData = res[1].data;
 
+        if(!computerData || !playerData){
+          $scope.settings.hasError = true;
+          $scope.settings.errorMsg = 'Service is busy at the moment!';
+          $scope.settings.feedback = 'Please try again later!';
+          return false;
+        }
+
         if(computerData.status === 'error' || playerData.status === 'error'){
           $scope.settings.hasError = true;
           $scope.settings.errorMsg = playerData.message;
-
+          $scope.settings.feedback = 'Edit your code and try again!';
           console.log(computerData.errors);
           console.log(playerData.errors);
           return false;

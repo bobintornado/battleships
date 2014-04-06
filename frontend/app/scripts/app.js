@@ -6,7 +6,8 @@ angular.module('frontendApp', [
   'ngSanitize',
   'ngRoute',
   'ui.codemirror',
-  'LocalStorageModule'
+  'LocalStorageModule',
+  'ui.bootstrap'
 ])
   .config(function ($routeProvider) {
     $routeProvider

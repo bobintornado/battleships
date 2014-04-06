@@ -101,11 +101,11 @@
       <h3>Your Code: </h3>
       <form role="form">
         <div class="form-group">
-          <div ui-codemirror="playerOptions" ng-model="playerBot.solution"></div>
+          <div ga-track="click" ga-label="selected code area" ui-codemirror="playerOptions" ng-model="playerBot.solution"></div>
         </div>
 
         <div class="form-group">
-          <button class="btn btn-block btn-success" ng-click="startGame()">Run Bot</button>
+          <button class="btn btn-block btn-success" ga-track="click" ga-label="start game" ng-click="startGame()">Run Bot</button>
         </div>
       </form>
     </div> 

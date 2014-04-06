@@ -20,4 +20,7 @@ angular.module('frontendApp', [
   })
   .config(['localStorageServiceProvider', function(localStorageServiceProvider){
     localStorageServiceProvider.setPrefix('battleships');
-  }]);
+  }])
+  .factory('ga', function(){
+    return window.ga;
+  });

@@ -95,7 +95,9 @@ def getNewBoard():
       else:
         bot = q.fetch(1)[0]
         return json.dumps({"newBoard":newBoard,"winningStatus":winningStatus(newBoard),"bot":bot.to_dict()})
-  
+    else:
+      return json.dumps({"newBoard":newBoard,"winningStatus":winningStatus(newBoard)})
+      
   else:
     errorMessage = moveValidation(board, enemyBoard, newEnemyBoard)
     return json.dumps({"status":"error", "message":errorMessage})

@@ -14,6 +14,25 @@ bottle = Bottle() # create another WSGI application for this controller and reso
 debug(True) #  uncomment for verbose error logging. Do not use in production
 
 
+@bottle.get('/percentile10')
+def show():
+  bots = Bot.query().order(-Bot.score)
+  result = []
+  if bots.count() <= 10: 
+    for bot in bots:
+      result.append(bot.to_dict())
+    return json.dumps(result)
+  else:
+    botsList = bots.run(batch_size=1000)
+    #dividing code
+    avg = len(botsList) / 10.0
+    last = 0.0
+    while last < len(botsList):
+      result.append(botsList[int(last)])
+      last += avg
+
+    return json.dumps(result)
+
 @bottle.get('/all')
 def show():
   bots = Bot.query()
@@ -44,10 +63,22 @@ def add():
     return json.dumps({"status":"error","message":"Your bot cannot be compiled.",
                         "errors":str(result['errors'])})
   else:
-    new_bot = Bot(name = name, language = lan, code = code, score = 0)
-    #GAE has auto retrying feature and a 500 internal error will be replied if failed
-    #500 internal error handling unimplemented
-    new_bot.put()
-
-  return json.dumps({"status":"success","name":new_bot.name,"language":new_bot.language,
+    q = Bot.query(Bot.name == name)
+    if q.count() == 0:
+      new_bot = Bot(name = name, language = lan, code = code, score = 400)
+      new_bot.put()
+      return json.dumps({"status":"success","name":new_bot.name,"language":new_bot.language,
                      "code":new_bot.code,"score":new_bot.score})
+    else:
+      bot = q.fetch(1)[0]
+      return json.dumps({"status":"error","message":"The bot name is taken",
+                        "errors":""})
+        
+    
+
+  
+
+
+
+
+

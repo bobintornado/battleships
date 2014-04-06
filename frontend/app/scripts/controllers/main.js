@@ -117,15 +117,20 @@ angular.module('frontendApp')
 
     $scope.playGame = function(){
       // Craft request objects
+      var lang = $scope.settings.language;
+      if(lang === 'javascript') {
+        lang = 'js';
+      } 
+
       var playerRequest = {
-        language: $scope.settings.language,
+        language: lang,
         solution: $scope.playerBot.solution,
         board: $scope.serializeBoard($scope.computerBot.board)
         // board: '-s-'
       };
 
       var computerRequest = {
-        language: $scope.settings.language,
+        language: lang,
         solution: $scope.computerBot.solution,
         board: $scope.serializeBoard($scope.playerBot.board)
         // board: '-s-'

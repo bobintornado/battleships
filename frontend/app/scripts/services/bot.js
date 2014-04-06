@@ -27,7 +27,7 @@ angular.module('frontendApp')
       getSample: function(language){
         switch(language){
           case 'javascript':
-            return 'function getMove(boardStr) {\n  //Write your code here...\n  return boardStr;\n}';
+            return 'function getMove(boardStr) {\n  //Write your code here...\n  return boardStr.replace("-","b");\n}';
           case 'java':
             return 'public static void getMove(String boardStr){\n  //Write your code here...\n  return boardStr;\n}';
           case 'python':

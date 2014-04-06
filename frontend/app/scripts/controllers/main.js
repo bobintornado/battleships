@@ -15,7 +15,7 @@ angular.module('frontendApp')
       });
 
       return max;
-    }
+    };
 
     $scope.maxScore = $scope.getMaxScore();
 
@@ -254,5 +254,27 @@ angular.module('frontendApp')
       var emptyBoard = '-------|-------|-------|-------|-------|-------|-------';
       $scope.playerBot.board = $scope.parseBoard(emptyBoard);
       $scope.computerBot.board = $scope.parseBoard(emptyBoard);
+    };
+
+    $scope.viewHistory = function(){
+      $scope.settings.hasWon = false;
+      $scope.settings.isOver = false;
+      $scope.settings.initialCall = true;
+      $scope.settings.hasError = false;
+      $scope.settings.errorMsg = '';
+
+      var emptyBoard = '-------|-------|-------|-------|-------|-------|-------';
+      $scope.playerBot.board = $scope.parseBoard(emptyBoard);
+      $scope.computerBot.board = $scope.parseBoard(emptyBoard);
+
+      $modal.open({
+        templateUrl: 'views/history.html',
+        controller: 'HistoryCtrl',
+        resolve: {
+          history: function(){
+            return $scope.history.player;
+          }
+        }
+      });
     };
   });

@@ -4,6 +4,21 @@ angular.module('frontendApp')
   .controller('MainCtrl', function ($scope, Board, Bot, $http, $q, localStorageService, $modal, allBots, percentileBots, filterFilter) {
     $scope.percentileBots = percentileBots;
     $scope.allBots = allBots;
+
+    $scope.getMaxScore = function(){
+      var max = 0;
+      $scope.allBots.forEach(function(d){
+        var score = d.score;
+        if(max < score){
+          max = score;
+        }
+      });
+
+      return max;
+    }
+
+    $scope.maxScore = $scope.getMaxScore();
+
     $scope.settings = {
       language: 'python',
       hasWon: false,

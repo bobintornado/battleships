@@ -40,10 +40,9 @@ def getNewBoard():
   if lan == "js":
     tests = "assert_equal('---b----', getMove('" + enemyBoard + "'));"
   if lan == "java":
-    #testing undone since server is down
-    tests = "assertEquals(getMove('" + enemyBoard + "'),'---b----')"
+    tests = "assertEquals(" + '"' + "-b--" + '"' + ", getMove(" + '"' + enemyBoard + '"' + "))"
   if lan == "ruby":
-    tests = "assert_equal(getMove(" + enemyBoard + "), '---b----'))" 
+    tests = "assert_equal(getMove(), '---b----'))" 
   
   response = json.loads(Utility.invoke_verify(solution,lan,tests))
 
@@ -83,20 +82,17 @@ def getNewBoard():
     
     newBoard = "".join(boardList)
     
-    if winningStatus(newBoard):
-      #auto save bot with random name
-      q = Bot.query(Bot.code == solution)
-      if q.count() == 0:
-        #bug unsettled there
-        random_bot_name = Utility.random_name_generator() 
-        new_bot = Bot(name =random_bot_name, language = lan, code = solution, score = 400)
-        new_bot.put()
-        return json.dumps({"newBoard":newBoard,"winningStatus":winningStatus(newBoard),"bot":new_bot.to_dict(),"generateStr":newEnemyBoard})
-      else:
-        bot = q.fetch(1)[0]
-        return json.dumps({"newBoard":newBoard,"winningStatus":winningStatus(newBoard),"bot":bot.to_dict(),"generateStr":newEnemyBoard})
+    #auto save bot with random name
+    q = Bot.query(Bot.code == solution)
+    if q.count() == 0:
+      #bug unsettled there
+      random_bot_name = Utility.random_name_generator() 
+      new_bot = Bot(name =random_bot_name, language = lan, code = solution, score = 400)
+      new_bot.put()
+      return json.dumps({"newBoard":newBoard,"winningStatus":winningStatus(newBoard),"bot":new_bot.to_dict(),"generateStr":newEnemyBoard})
     else:
-      return json.dumps({"newBoard":newBoard,"winningStatus":winningStatus(newBoard),"generateStr":newEnemyBoard})
+      bot = q.fetch(1)[0]
+      return json.dumps({"newBoard":newBoard,"winningStatus":winningStatus(newBoard),"bot":bot.to_dict(),"generateStr":newEnemyBoard})
 
   else:
     errorMessage = moveValidation(board, enemyBoard, newEnemyBoard)

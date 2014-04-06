@@ -71,7 +71,7 @@ def getNewBoard():
     try:
       index = newEnemyBoard.index("b")
     except Exception, e:
-      return json.dumps({"status":"error","message":"Place a bomb!"}) 
+      return json.dumps({"status":"error","message":"Place a bomb!","generateStr":newEnemyBoard}) 
     
     #Check Hiting or Missing
     if boardList[index] is 's':
@@ -79,7 +79,7 @@ def getNewBoard():
     elif boardList[index] is '-':
       boardList[index] = 'm'
     else:
-      return json.dumps({"status":"error","message":"Don't waste your bomb! Place it on empty cell only!"}) 
+      return json.dumps({"status":"error","message":"Don't waste your bomb! Place it on empty cell only!","generateStr":newEnemyBoard}) 
     
     newBoard = "".join(boardList)
     
@@ -91,12 +91,12 @@ def getNewBoard():
         random_bot_name = Utility.random_name_generator() 
         new_bot = Bot(name =random_bot_name, language = lan, code = solution, score = 400)
         new_bot.put()
-        return json.dumps({"newBoard":newBoard,"winningStatus":winningStatus(newBoard),"bot":new_bot.to_dict()})
+        return json.dumps({"newBoard":newBoard,"winningStatus":winningStatus(newBoard),"bot":new_bot.to_dict(),"generateStr":newEnemyBoard})
       else:
         bot = q.fetch(1)[0]
-        return json.dumps({"newBoard":newBoard,"winningStatus":winningStatus(newBoard),"bot":bot.to_dict()})
+        return json.dumps({"newBoard":newBoard,"winningStatus":winningStatus(newBoard),"bot":bot.to_dict(),"generateStr":newEnemyBoard})
     else:
-      return json.dumps({"newBoard":newBoard,"winningStatus":winningStatus(newBoard)})
+      return json.dumps({"newBoard":newBoard,"winningStatus":winningStatus(newBoard),"generateStr":newEnemyBoard})
 
   else:
     errorMessage = moveValidation(board, enemyBoard, newEnemyBoard)

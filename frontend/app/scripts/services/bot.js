@@ -35,7 +35,7 @@ angular.module('frontendApp')
           case 'js':
             return 'function getMove(boardStr) {\n  //Write your code here...\n  return boardStr.replace("-","b");\n}';
           case 'java':
-            return 'public static void getMove(String boardStr){\n  //Write your code here...\n  return boardStr;\n}';
+            return 'public static String getMove(String boardStr){\n  //Write your code here...\n  return boardStr.replace("-","b");\n}';
           case 'python':
             return 'def getMove(boardStr):\n  # Write your code here\n  return boardStr.replace("-","b",1)';
         }

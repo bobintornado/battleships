@@ -28,11 +28,12 @@ angular.module('frontendApp')
         var lang = newVal;
 
         if(lang === 'java'){
-          lang = 'clike';
+          lang = 'text/x-java';
         } else if (lang === 'js'){
           lang = 'javascript';
         }
 
+        // TODO: Refactor when have time
         $scope.settings.selectedBot = filterFilter($scope.percentileBots, {language: newVal});
         if($scope.settings.selectedBot.length > 0){
           $scope.settings.selectedBot = $scope.settings.selectedBot[0].name;

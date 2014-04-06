@@ -179,9 +179,9 @@ angular.module('frontendApp')
         if(computerData.status === 'error' || playerData.status === 'error'){
           $scope.settings.hasError = true;
           $scope.settings.errorMsg = playerData.message;
-          $scope.settings.feedback = 'Edit your code and try again!';
-          console.log(computerData.errors);
-          console.log(playerData.errors);
+          $scope.settings.feedback = 'Method output: ' + playerData.generateStr;
+          console.log(computerData);
+          console.log(playerData);
           return false;
         }
 
@@ -200,18 +200,28 @@ angular.module('frontendApp')
           var result;
           if (playerData.winningStatus === computerData.winningStatus){
             // Draw
-            result = 0;
+            result = 1;
           } else if (playerData.winningStatus) {
             // Player win
-            result = 1;
+            result = 0;
           } else {
             // Computer win
             result = 2;
           }
+          console.log(computerData);
+          console.log(playerData);
 
-          // console.log(playerData);
-          // console.log(computerData);
-          $scope.settings.isOver = true;
+          var updateResult = {
+            name1: playerData.bot.name,
+            name2: computerData.bot.name,
+            result: result
+          };
+
+          $http.post('/Game/addResult', updateResult).success(function(data){
+            console.log(data);
+            $scope.settings.isOver = true;
+          });
+
           return false;
         }
 

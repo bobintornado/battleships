@@ -14,7 +14,7 @@ angular.module('frontendApp')
         }
       });
 
-      return max;
+      return max.toFixed(2);
     };
 
     $scope.maxScore = $scope.getMaxScore();

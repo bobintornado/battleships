@@ -63,20 +63,18 @@ def add():
     return json.dumps({"status":"error","message":"Your bot cannot be compiled.",
                         "errors":str(result['errors'])})
   else:
-    #return result
-    q = Bot.query(Bot.name == name)
-    if q.count() == 0:
-      new_bot = Bot(name = name, language = lan, code = code, score = 400)
-      new_bot.put()
-      return json.dumps({"status":"success","name":new_bot.name,"language":new_bot.language,
-                     "code":new_bot.code,"score":new_bot.score})
-    else:
-      bot = q.fetch(1)[0]
+    #save bot
+    new_key_a = ndb.Key(Bot, solution)
+    b = new_key_a.get() 
+    if b is not None:
       return json.dumps({"status":"error","message":"The bot name is taken",
                         "errors":""})
-        
-    
-
+    else:
+      random_bot_name = Utility.random_name_generator() 
+      key_name = ndb.Key(Bot, solution)
+      new_bot = Bot(name =random_bot_name, language = lan, code = solution, score = 400, key = key_name)
+      new_bot.put()
+      return json.dumps(new_bot.to_dict())
   
 
 

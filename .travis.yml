@@ -1,17 +1,20 @@
 language: node_js
 node_js:
-  - '0.10'
+- '0.10'
 before_script:
-  - wget https://googleappengine.googlecode.com/files/google_appengine_1.8.9.zip -nv
-  - unzip -q google_appengine_1.8.9.zip
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-  - cd frontend
-  - npm install -g bower grunt-cli
-  - npm install
-  - bower install
+- wget https://googleappengine.googlecode.com/files/google_appengine_1.8.9.zip -nv
+- unzip -q google_appengine_1.8.9.zip
+- export DISPLAY=:99.0
+- sh -e /etc/init.d/xvfb start
+- cd frontend
+- npm install -g bower grunt-cli
+- npm install
+- bower install
 script:
-  - grunt test
+- grunt test
 after_success:
-  - cd ../google_appengine
-  - python appcfg.py --oauth2_refresh_token=4/SDrwCdeqKDIc5qbx6Dehw-gg7N_1.0gc-IhOh6iYQXE-sT2ZLcbR57lx5igI update ../
+- cd ../google_appengine
+- python appcfg.py --oauth2_refresh_token=$GAE_TOKEN update ../
+env:
+  global:
+    secure: RaDGpw82lipSNigiXO+1qtHX9ElB/njaqvuzcxuTNKfVfjVtvItY+z7y7s9+S5BmGAVM5WfRPdeav93xlUUgVig2oIXU7rIlTwZm5Y9xT8QOoZMB612zcUmbwFyn1OpBGw2nWiuZbq4eEMsba5EI1zrTqhuAIu+FXfqjxseHAY8=

@@ -5,6 +5,8 @@ node_js:
 before_script:
   - 'cd frontend'
   - 'npm install -g bower grunt-cli'
+  - 'npm install'
   - 'bower install'
+  - 'ls'
 script:
   - 'grunt test'

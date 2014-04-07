@@ -14,4 +14,4 @@ script:
   - grunt test
 after_success:
   - cd ../google_appengine
-  - python appcfg.py --noauth_local_webserver --oauth2 update .
+  - python appcfg.py --noauth_local_webserver --oauth2 update ../

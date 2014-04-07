@@ -11,7 +11,7 @@ angular.module('frontendApp')
     };
 
     $scope.isHit = function(val){
-      return true;
+      return val === 'h';
     };
 
     $scope.$watch('board', function(newVal, oldVal){

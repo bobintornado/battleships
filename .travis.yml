@@ -6,12 +6,12 @@ before_script:
   - unzip -q google_appengine_1.8.9.zip
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
-  - 'cd frontend'
-  - 'npm install -g bower grunt-cli'
-  - 'npm install'
-  - 'bower install'
+  - cd frontend
+  - npm install -g bower grunt-cli
+  - npm install
+  - bower install
 script:
-  - 'grunt test'
+  - grunt test
 after_success:
-  - 'cd ..'
-  - 'appcfg.py --noauth_local_webserver --oauth2 update .'
+  - cd ../google_appengine
+  - python appcfg.py --noauth_local_webserver --oauth2 update .

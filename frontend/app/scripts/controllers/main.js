@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('frontendApp')
-  .controller('MainCtrl', function ($scope, Board, Bot, $http, $q, localStorageService, $modal, allBots, percentileBots, filterFilter, $firebase, $firebaseSimpleLogin, Firebase, $rootScope) {
+  .controller('MainCtrl', function ($scope, Board, Bot, $http, $q, localStorageService, $modal, allBots, percentileBots, filterFilter, $firebase, $firebaseSimpleLogin, Firebase, $rootScope, ga) {
     $modal.open({
       templateUrl: 'views/help.html'
     });
@@ -11,6 +11,7 @@ angular.module('frontendApp')
     $scope.isLogin = false;
 
     $rootScope.$on('$firebaseSimpleLogin:login', function(e, user) {
+      ga('send', 'event', 'button', 'click', 'login');
       $scope.isLogin = true;
     });
 

@@ -19,9 +19,9 @@ angular.module('frontendApp', [
           allBots: ['Bot', function(Bot){
             return Bot.getAllBots();
           }],
-          // percentileBots: ['Bot', function(Bot){
-          //   return Bot.getChallengeBots();
-          // }]
+          percentileBots: ['Bot', function(Bot){
+            return Bot.getChallengeBots();
+          }]
         }
       })
       .otherwise({

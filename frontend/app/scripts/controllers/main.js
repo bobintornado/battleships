@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('frontendApp')
-  .controller('MainCtrl', function ($scope, Board, Bot, $http, $q, localStorageService, $modal, allBots, filterFilter, $firebase, $firebaseSimpleLogin, Firebase, $rootScope) {
+  .controller('MainCtrl', function ($scope, Board, Bot, $http, $q, localStorageService, $modal, allBots, percentileBots, filterFilter, $firebase, $firebaseSimpleLogin, Firebase, $rootScope) {
     $modal.open({
       templateUrl: 'views/help.html'
     });
@@ -18,7 +18,7 @@ angular.module('frontendApp')
       $scope.isLogin = false;
     });
 
-    $scope.percentileBots = allBots;
+    $scope.percentileBots = percentileBots;
     $scope.allBots = allBots;
 
     $scope.getMaxScore = function(){

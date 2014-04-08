@@ -16,7 +16,7 @@
         </div>
 
         <div class="col-md-2">
-          <label>Choose your level: </label>
+          <label>Difficulty level: </label>
           <select ng-model="settings.selectedBot" class="form-control option-select">
             <option ng-repeat="bot in percentileBots | filter: {language: settings.language }" value="{{bot.name}}">Level {{$index + 1}}</option>
           </select>

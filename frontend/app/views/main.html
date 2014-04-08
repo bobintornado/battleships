@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-12">
       <h1 id="logo">
-        Battleships 
+        Battleships
       </h1>
       
       <div class="statistics">
@@ -15,7 +15,7 @@
           </select>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-2">
           <label>Choose your level: </label>
           <select ng-model="settings.selectedBot" class="form-control option-select">
             <option ng-repeat="bot in percentileBots | filter: {language: settings.language }" value="{{bot.name}}">Level {{$index + 1}}</option>
@@ -34,6 +34,13 @@
             <div class="fb-share-button" data-href="http://www.cloud429-battleship.appspot.com/" data-type="button_count"></div>
         </div>
 
+        <div class="col-md-2 text-center">
+          <label class="control-label"></label> <br/>
+          <button class="btn btn-default btn-primary btn-block" ng-click="loginObj.$login('facebook')" ng-hide="isLogin">Login</button>
+
+          <button class="btn btn-default btn-primary btn-block" ng-click="loginObj.$logout()" ng-show="isLogin">Logout</button>
+        </div>
+
         <div class="clearfix"></div>
       </div>
     </div>
@@ -42,13 +49,14 @@
   <div class="row">
     <div class="col-md-6" ng-controller="BoardCtrl">
       <div class="grid">
-        <!-- Win Overlay -->
-        <div class="overlay" ng-show="hasWon()">
+        <!-- Win Overlay --><div class="overlay" ng-show="hasWon()">
+        
           <div>
             <h1>You Win!</h1>
             <p>You have sunk all the Computer's ships!</p>
             
-            <button class="btn btn-lg btn-info" ng-click="viewHistory()">View History</button>
+            <button class="btn btn-lg btn-info" ng-hide="isLogin" disabled>Login to View History</button>
+            <button class="btn btn-lg btn-info" ng-show="isLogin" ng-click="viewHistory()">View History</button>
             <button class="btn btn-lg btn-warning" ng-click="reset()">Reset</button>
           </div>
         </div>
@@ -59,7 +67,8 @@
             <h1>You Lose!</h1>
             <p>The Computer has sunk all your ships!</p>
             
-            <button class="btn btn-lg btn-info" ng-click="viewHistory()">View History</button>            
+            <button class="btn btn-lg btn-info" ng-hide="isLogin" disabled>Login to View History</button>
+            <button class="btn btn-lg btn-info" ng-show="isLogin" ng-click="viewHistory()">View History</button>            
             <button class="btn btn-lg btn-warning" ng-click="reset()">Reset</button>
           </div>
         </div>
@@ -77,7 +86,10 @@
           <div>
             <h2>Oops! An error has occured!</h2>
             <p class="error-msg">{{settings.errorMsg}}</p>
-            <p>{{settings.feedback}}</p>
+            <p ng-hide="settings.compileError">{{settings.feedback}}</p>
+            <p ng-show="settings.compileError">
+              <a href="" ng-click="showCompileError()">Click to see compilation errors</a>
+            </p>
           </div>
         </div>
 
@@ -90,15 +102,17 @@
 
     <div class="col-md-6" ng-controller="BotCtrl">
       <!-- Code input for bot -->
-      <h3>Bot Code: </h3>
-      <form role="form">
-        <div class="form-group">
-          <div ui-codemirror="botOptions" ng-model="computerBot.solution"></div>
-        </div>
+      <div id="bot">        
+        <h3>Bot Code: </h3>
+        <form role="form">
+          <div class="form-group">
+            <div ui-codemirror="botOptions" ng-model="computerBot.solution"></div>
+          </div>
 
-        <div class="form-group">
-        </div>
-      </form> 
+          <div class="form-group">
+          </div>
+        </form> 
+      </div>
       <!-- End of code input for bot -->
 
       <!-- Code input for player -->

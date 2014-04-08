@@ -1,3 +1,7 @@
+#generated-str {
+  color: white;
+}
+
 .modal-header h2{
   text-align: center;
   color: black;
@@ -83,7 +87,7 @@
 }
 
 #player-code {
-  height: 300px;
+  height: 450px;
 }
 
 #mini.grid {
@@ -152,5 +156,9 @@
     background-color: rgb(0,140,158);
     float: left;
     border: solid rgb(0,95,107) 5px;
+  }
+
+  #player-code {
+    height: 300px;
   }
 }

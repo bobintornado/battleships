@@ -7,7 +7,8 @@ angular.module('frontendApp', [
   'ngRoute',
   'ui.codemirror',
   'LocalStorageModule',
-  'ui.bootstrap'
+  'ui.bootstrap',
+  'firebase'
 ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -18,9 +19,9 @@ angular.module('frontendApp', [
           allBots: ['Bot', function(Bot){
             return Bot.getAllBots();
           }],
-          percentileBots: ['Bot', function(Bot){
-            return Bot.getChallengeBots();
-          }]
+          // percentileBots: ['Bot', function(Bot){
+          //   return Bot.getChallengeBots();
+          // }]
         }
       })
       .otherwise({
@@ -32,4 +33,7 @@ angular.module('frontendApp', [
   }])
   .factory('ga', function(){
     return window.ga;
+  })
+  .factory('Firebase', function(){
+    return window.Firebase;
   });

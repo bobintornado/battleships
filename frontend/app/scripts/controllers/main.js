@@ -1,8 +1,24 @@
 'use strict';
 
 angular.module('frontendApp')
-  .controller('MainCtrl', function ($scope, Board, Bot, $http, $q, localStorageService, $modal, allBots, percentileBots, filterFilter) {
-    $scope.percentileBots = percentileBots;
+  .controller('MainCtrl', function ($scope, Board, Bot, $http, $q, localStorageService, $modal, allBots, filterFilter, $firebase, $firebaseSimpleLogin, Firebase, $rootScope) {
+    $modal.open({
+      templateUrl: 'views/help.html'
+    });
+
+    var dataRef = new Firebase('https://battleships-is306.firebaseio.com/');
+    $scope.loginObj = $firebaseSimpleLogin(dataRef);
+    $scope.isLogin = false;
+
+    $rootScope.$on('$firebaseSimpleLogin:login', function(e, user) {
+      $scope.isLogin = true;
+    });
+
+    $rootScope.$on('$firebaseSimpleLogin:logout', function(e, user) {
+      $scope.isLogin = false;
+    });
+
+    $scope.percentileBots = allBots;
     $scope.allBots = allBots;
 
     $scope.getMaxScore = function(){
@@ -195,8 +211,8 @@ angular.module('frontendApp')
           $scope.settings.hasError = true;
           $scope.settings.errorMsg = playerData.message;
           $scope.settings.feedback = 'Method output: ' + playerData.generateStr;
-          console.log(computerData);
-          console.log(playerData);
+          $scope.settings.compileError = playerData.errors;
+
           return false;
         }
 
@@ -204,10 +220,12 @@ angular.module('frontendApp')
         
         $scope.playerBot.board = $scope.parseBoard(computerData.newBoard);
 
+        $scope.settings.playerString = playerData.generateStr;
         $scope.history.computer.push($scope.computerBot.board);
         $scope.history.player.push($scope.playerBot.board);
 
         if(playerData.winningStatus || computerData.winningStatus){
+          $scope.settings.gameStart = false;
           if(playerData.winningStatus){
             $scope.settings.hasWon = true;
           }
@@ -254,6 +272,19 @@ angular.module('frontendApp')
       var emptyBoard = '-------|-------|-------|-------|-------|-------|-------';
       $scope.playerBot.board = $scope.parseBoard(emptyBoard);
       $scope.computerBot.board = $scope.parseBoard(emptyBoard);
+    };
+
+    $scope.showCompileError = function(){
+      console.log('error');
+      $modal.open({
+        templateUrl: 'views/compile.html',
+        controller: 'CompileCtrl',
+        resolve: {
+          errorMsg: function(){
+            return $scope.settings.compileError;
+          }
+        }
+      });
     };
 
     $scope.viewHistory = function(){

@@ -1,0 +1,26 @@
+<div class="modal-header">
+  <h2>User Guide</h2>
+</div>
+<div class="modal-body">
+  <p>Welcome to the world of Battleship! Ready to gear up and sink ships? Grab your keyboard now and shoot out the winning codes!</p>
+
+  <p>Your Goal is to <strong>SUNK ALL SHIPS OF YOUR OPPONENT</strong>, so how should you wire up your code? Here's how you play:</p>
+
+  <ol id="instructions">
+    <li>
+      Write a method that takes in a String argument called "boardStr" that looks like this “-------|-------|-------|-------|-------|-------|-------". Each dash represents a cell. Each "|" represents a row break. 
+    </li>
+    <li>
+      The method should returns a string that looks like “-------|-------|-------|---b---|-------|-------|-------", where "b" is where you want to place the bomb.
+    </li>
+    <li>
+      Our servers will process your code and return you a string that looks like “-------|-------|---m---|---h---|-------|-------|-------”, where "h" is a hit and "m" is a miss.
+    </li>
+    <li>
+      The string returned by server will be the new input for the next turn. 
+    </li>
+  </ol>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-success" ng-click="$close()">Got it</button>
+</div>

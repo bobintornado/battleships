@@ -33,11 +33,11 @@ angular.module('frontendApp')
       getSample: function(language){
         switch(language){
           case 'js':
-            return 'function getMove(boardStr) {\n  //Write your code here...\n  return boardStr.replace("-","b");\n}';
+            return 'function getMove(boardStr) {\n  // Your code should return a string like:\n  // ----b--|-------|-------|-------|-------|-------|-------\n  // Where "b" is where you want to place your bomb\n\n  return boardStr.replace("-","b");\n}';
           case 'java':
             return 'public static String getMove(String boardStr){\n  //Write your code here...\n  return boardStr.replace("-","b");\n}';
           case 'python':
-            return 'def getMove(boardStr):\n  # Write your code here\n  return boardStr.replace("-","b",1)';
+            return 'def getMove(boardStr):\n  # Your code should return a string like:\n  # ----b--|-------|-------|-------|-------|-------|-------\n  # Where "b" is where you want to place your bomb\n\n  return boardStr.replace("-","b",1)';
         }
       }
     };

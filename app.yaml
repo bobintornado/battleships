@@ -7,6 +7,8 @@
 # using cloud.google.com/console use the "project id" for your application
 # id.
 application: cloud429-battleship
+#application: versatile-art-517
+#version: 2
 version: 2
 runtime: python27
 api_version: 1

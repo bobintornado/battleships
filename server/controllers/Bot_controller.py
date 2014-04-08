@@ -23,12 +23,12 @@ def show():
       result.append(bot.to_dict())
     return json.dumps(result)
   else:
-    botsList = bots.run(batch_size=1000)
+    botsList = bots.fetch(1000)
     #dividing code
     avg = len(botsList) / 10.0
     last = 0.0
     while last < len(botsList):
-      result.append(botsList[int(last)])
+      result.append(botsList[int(last)].to_dict())
       last += avg
 
     return json.dumps(result)

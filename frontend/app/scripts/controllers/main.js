@@ -259,6 +259,10 @@ angular.module('frontendApp')
         }
 
         $scope.playGame();
+      }, function(reason){
+        $scope.settings.hasError = true;
+        $scope.settings.errorMsg = 'Verification service is down :(';
+        $scope.settings.feedback = 'Try again later!';
       });
     };
 
